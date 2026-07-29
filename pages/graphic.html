@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafika komputerowa | Galeria</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="gallery-page">
+        <a href="../index.html" class="gallery-back back-btn">← Back to home page</a>
+
+        <header class="gallery-header">
+            <div>
+                <h1>Graphic's</h1>
+            </div>
+        </header>
+
+        <main class="gallery-grid" id="graphic-gallery"></main>
+
+        <div class="lightbox" id="lightbox">
+            <div class="lightbox-content">
+                <button class="lightbox-close" id="lightbox-close">×</button>
+                <img id="lightbox-img" src="" alt="Preview">
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js" defer></script>
+    <script>
+        const graphicImages = [
+            "../images/graphic/1 oleksii-pryimak-3 art.jpg",
+            "../images/graphic/2 oleksii-pryimak-1-1 art.jpg",
+            "../images/graphic/3 Oleksii Pryimak - grafika komputerowa - design -3.jpg",
+            "../images/graphic/637993-Oleksii-Pryimak.jpg",
+            "../images/graphic/851327-Oleksii-Pryimak.jpg",
+            "../images/graphic/908347-Oleksii-Pryimak.jpg",
+            "../images/graphic/018819-Oleksii-Pryimak.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - arcive od 2021 - 1.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -1 1.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -13.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -16.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -2.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -20.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -21.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -7 1.jpg",
+            "../images/graphic/oleksii_primak_archive.jpg"
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const gallery = document.getElementById('graphic-gallery');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            graphicImages.forEach(src => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Grafika komputerowa';
+                img.loading = 'lazy';
+                item.appendChild(img);
+
+                item.addEventListener('click', () => {
+                    openLightbox(src);
+                });
+
+                gallery.appendChild(item);
+            });
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', event => {
+                if (event.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

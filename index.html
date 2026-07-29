@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oleksii Pryimak - Portfolio</title>
+    
+    <!-- Import czcionek z Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Ikony (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Główne style CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Top Header (Language & Mobile Menu Toggle) -->
+    <div class="top-header">
+        <div class="top-header-inner">
+            <!-- Mobile Hamburger Button -->
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <!-- Language Switcher -->
+            <div class="lang-container lang-container-right">
+                <div class="lang-btn active" id="btn-pl" onclick="switchLanguage('pl')">PL</div>
+                <div class="lang-btn" id="btn-en" onclick="switchLanguage('en')">EN</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <button class="close-menu-btn" aria-label="Zamknij menu" onclick="toggleMobileMenu()">
+            <i class="fas fa-xmark"></i>
+        </button>
+        <nav class="mobile-nav-links">
+            <a href="#hero" onclick="scrollToId('hero');" data-lang-pl="O mnie" data-lang-en="About"></a>
+            <a href="#programming" onclick="scrollToId('programming');" data-lang-pl="Programowanie" data-lang-en="Programming">Programowanie</a>
+            <a href="#graphics" onclick="scrollToId('graphics');" data-lang-pl="Grafika Komputerowa" data-lang-en="Computer Graphics">Grafika Komputerowa</a>
+            <a href="#art" onclick="scrollToId('art');" data-lang-pl="Artystyczne Malowanie" data-lang-en="Mural Art">Artystyczne Malowanie</a>
+            <a href="#contact" onclick="scrollToId('contact');" data-lang-pl="Kontakt" data-lang-en="Contact">Kontakt</a>
+        </nav>
+    </div>
+
+    <!-- Right Navigation & Progress (Desktop) -->
+    <div class="nav-container">
+        <div class="nav-arrow nav-arrow-up" onclick="scrollToSection('up')" title="Poprzednia sekcja">
+            <i class="fas fa-chevron-up"></i>
+        </div>
+        
+        <div class="progress-bar">          
+            <!-- 5 segments corresponding to 5 sections -->
+            <div class="progress-segment" data-target="hero" data-tooltip-pl="Start" data-tooltip-en="Home" onclick="scrollToId('hero')"></div>
+            <div class="progress-segment" data-target="programming" data-tooltip-pl="Programowanie" data-tooltip-en="Programming" onclick="scrollToId('programming')"></div>
+            <div class="progress-segment" data-target="graphics" data-tooltip-pl="Grafika" data-tooltip-en="Graphics" onclick="scrollToId('graphics')"></div>
+            <div class="progress-segment" data-target="art" data-tooltip-pl="Sztuka" data-tooltip-en="Art" onclick="scrollToId('art')"></div>
+            <div class="progress-segment" data-target="contact" data-tooltip-pl="Kontakt" data-tooltip-en="Contact" onclick="scrollToId('contact')"></div>
+        </div>
+
+        <div class="nav-arrow nav-arrow-down" onclick="scrollToSection('down')" title="Następna sekcja">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+
+    <!-- 1. HERO SECTION -->
+    <section id="hero">
+        <div class="bg-image bg-hero bg-color"></div>
+        <div class="overlay overlay-light"></div>
+        <canvas id="particle-canvas"></canvas>
+        <div class="container fade-in-section">
+            <h1 id="hero-title" data-lang-pl="Cześć" data-lang-en="Hello">Cześć</h1>
+            <p id="hero-description" data-lang-pl="Mam na imię Oleksii. Od ponad 20 lat realizuję projekty dla e-commerce, sztuki wizualnej i architektury. Obecnie łączę Photoshopa z Pythonem, by tworzyć autorskie narzędzia rozwiązujące wyzwania operacyjne i zwiększające produktywność." 
+               data-lang-en="My name is Oleksii. For over 20 years, I have been delivering projects across e-commerce, visual arts, and architecture. Currently, I combine Photoshop and Python to build custom tools that solve operational challenges and boost productivity.">
+                Mam na imię Oleksii. Jestem specjalistą w branży kreatywnej oraz programistą Python. Posiadam ponad 20-letnie doświadczenie w sektorze kreatywnym oraz bogate kompetencje w projektowaniu graficznym dla branż e-commerce, sztuki wizualnej i architektury.
+            </p>
+            
+            <div class="hero-socials reveal-slide-up stagger-1">
+                <a href="https://www.linkedin.com/in/oleksii-pryimak-42314186/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/OleksiiPryimak" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. PROGRAMMING SECTION -->
+    <section id="programming">
+        <div class="bg-image bg-prog"></div>
+        <div class="overlay"></div>
+        <div class="container fade-in-section">
+            <h2 class="section-title reveal-slide-left" data-lang-pl="Programowanie" data-lang-en="Programming">Programowanie</h2>
+            
+            <div class="section-desc reveal-slide-up stagger-1" data-lang-pl="Kursy i certyfikaty: Generative AI Leader/2026, Basics: HTML, CSS, JavaScript/2025, Practical Python - Course/2023, Creative Skills for Innovation - Workshop/PFR & Google/2019"
+                 data-lang-en="Courses & Certificates: Generative AI Leader/2026, Basics: HTML, CSS, JavaScript/2025, Practical Python - Course/2023, Creative Skills for Innovation - Workshop/PFR & Google/2019">
+                 Kursy i certyfikaty: Generative AI Leader/2026, Basics: HTML, CSS, JavaScript/2025, Practical Python - Course/2023, Creative Skills for Innovation - Workshop/PFR & Google/2019
+            </div>
+
+            <div class="skills-grid">
+                <div class="grid-item reveal-scale stagger-1" data-lang-pl="Główne narzędzie: Python" data-lang-en="Main Tool: Python">Główne narzędzie: Python</div>
+                <div class="grid-item reveal-scale stagger-2" data-lang-pl="Podstawy: HTML, CSS, JavaScript" data-lang-en="Basics: HTML, CSS, JavaScript">Podstawy: HTML, CSS, JavaScript</div>
+                <a href="https://github.com/OleksiiPryimak" class="grid-item link-block reveal-scale stagger-3" data-lang-pl="GitHub Profile" data-lang-en="GitHub Profile">GitHub Profile</a>
+            </div>
+
+            
+
+            <img src="images/PNG/code.png" alt="Code" class="content-image reveal-slide-up stagger-2">
+            
+        </div>
+    </section>
+
+    <!-- 3. GRAPHICS SECTION -->
+    <section id="graphics">
+        <div class="bg-image bg-graph"></div>
+        <div class="overlay"></div>
+        <div class="container fade-in-section">
+            <h2 class="section-title reveal-slide-left" data-lang-pl="Grafika Komputerowa" data-lang-en="Computer Graphics">Grafika Komputerowa</h2>
+
+            <div class="section-desc reveal-slide-up stagger-1" data-lang-pl="Główne narzędzie: Adobe Photoshop. Pracowałem również z oprogramowaniem: Affinity, Inkscape (grafika wektorowa), Blender (grafika 3D), AutoCAD, NanoCAD (projekty CAD) oraz HitFilm Express (edycja wideo)."
+                 data-lang-en="Main Tool: Adobe Photoshop. I also worked with software: Affinity, Inkscape (vector graphics), Blender (3D graphics), AutoCAD, NanoCAD (CAD projects), and HitFilm Express (video editing).">
+                 Pracowałem również z oprogramowaniem: Affinity, Inkscape (grafika wektorowa), Blender (grafika 3D), AutoCAD, NanoCAD (projekty CAD) oraz HitFilm Express (edycja wideo).
+            </div>
+
+            <div class="skills-grid">
+                <div class="grid-item reveal-scale stagger-1" data-lang-pl="Główne narzędzie: Adobe Photoshop" data-lang-en="Main Tool: Adobe Photoshop">Główne narzędzie: Adobe Photoshop</div>
+                <div class="grid-item reveal-scale stagger-2" data-lang-pl="Zautomatyzowane Operacje Photoshop" data-lang-en="Automated Photoshop Actions">Zautomatyzowane Operacje Photoshop</div>
+                <a href="pages/graphic.html" class="grid-item link-block reveal-scale stagger-3" data-lang-pl="Zobacz Portfolio" data-lang-en="View Portfolio">Zobacz Portfolio</a>
+            </div>
+
+            <img src="images/PNG/graphics.png" alt="Graphics" class="content-image reveal-slide-up stagger-2">
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ART SECTION -->
+    <section id="art">
+        <div class="bg-image bg-art"></div>
+        <div class="overlay"></div>
+        <div class="container fade-in-section">
+            <h2 class="section-title reveal-slide-left" data-lang-pl="Artystyczne Malowanie" data-lang-en="Mural art">Artystyczne Malowanie</h2>
+
+            <div class="section-desc reveal-slide-up stagger-1" data-lang-pl="Moje portfolio obejmuje ponad 20 000 m² zrealizowanych projektów. Pierwszy komercyjny mural: 2004 r. Najwyższa realizacja: ok. 90 m wysokości. Największy pojedynczy projekt: ok. 2 000 m²."
+                 data-lang-en="My portfolio includes over 20,000 m² of completed projects. First commercial mural: 2004. Highest realization: approx. 90 m high. Largest single project: approx. 2,000 m².">
+                 Moje portfolio obejmuje ponad 20 000 m² zrealizowanych projektów. Pierwszy komercyjny mural: 2004 r. Najwyższa realizacja: ok. 90 m wysokości. Największy pojedynczy projekt: ok. 2 000 m².
+            </div>
+
+            <div class="skills-grid">
+                <div class="grid-item reveal-scale stagger-1" data-lang-pl="Murale, Obrazy" data-lang-en="Mural art, Canvases">Murale, Obrazy</div>
+                <div class="grid-item reveal-scale stagger-2" data-lang-pl="Technika: farba w sprayu i akryl." data-lang-en="Technique: spray paint and acrylic">Technika: farba w sprayu i akryl.</div>
+                <a href="pages/art.html" class="grid-item link-block reveal-scale stagger-3" data-lang-pl="Galeria Prac" data-lang-en="Art Gallery">Galeria Prac</a>
+            </div>
+
+            <img src="images/PNG/art.png" alt="Art" class="content-image reveal-slide-up stagger-2">
+        </div>
+    </section>
+
+    <!-- 5. CONTACT SECTION -->
+    <section id="contact">
+        <div class="bg-image bg-contact bg-color"></div>
+        <div class="overlay overlay-light"></div>
+        <div class="container fade-in-section">
+            <h2 class="section-title reveal-slide-down" style="text-align: center; border: none;" data-lang-pl="Kontakt" data-lang-en="Contact">Kontakt</h2>
+            
+            <div class="contact-box reveal-scale stagger-1">
+                <i class="fas fa-envelope" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 20px;"></i>
+                <br>
+                <a href="mailto:oleksii@pryimak.pl" style="font-size: 1.5rem;">oleksii@pryimak.pl</a>
+            </div>
+            <div class="hero-socials reveal-slide-up stagger-2">
+                <a href="https://www.linkedin.com/in/oleksii-pryimak-42314186/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skrypt JS -->
+    <script src="js/main.js" defer></script>
+</body>
+</html>

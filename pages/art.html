@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artystyczne malowanie | Galeria</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="gallery-page">
+        <a href="../index.html" class="back-btn">← Back to home page</a>
+
+        <header class="gallery-header">
+            <div>
+                <h1>Art</h1>
+        </header>
+
+        <main class="gallery-grid" id="art-gallery"></main>
+
+        <section class="video-section">
+            <h2>---</h2>
+            <div class="video-grid" id="video-gallery"></div>
+        </section>
+
+        <div class="lightbox" id="lightbox">
+            <div class="lightbox-content">
+                <button class="lightbox-close" id="lightbox-close">×</button>
+                <img id="lightbox-img" src="" alt="Preview">
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js" defer></script>
+    <script>
+        const artImages = [
+            "../images/art/1 Oleksii Pryimak 22 1.jpg",
+            "../images/art/096939-Oleksii-Pryimak.jpg",
+            "../images/art/1 Oleksii Pryimak 24 mural.jpg",
+            "../images/art/1 Oleksii Pryimak 26 mural.jpg",
+            "../images/art/1 Oleksii Pryimak 27 mural.jpg",
+            "../images/art/1-Oleksii-Pryimak.jpg",
+            "../images/art/156145-Oleksii-Pryimak.jpg",
+            "../images/art/218852-Oleksii-Pryimak.jpg",
+            "../images/art/242315-Oleksii-Pryimak.jpg",
+            "../images/art/338756-Oleksii-Pryimak.jpg",
+            "../images/art/394391-Oleksii-Pryimak.jpg",
+            "../images/art/443023-Oleksii-Pryimak.jpg",
+            "../images/art/Oleksii Pryimak 1 mural.jpg",
+            "../images/art/Oleksii Pryimak 10 mural.JPG",
+            "../images/art/Oleksii Pryimak 11 mural.jpg"
+        ];
+
+        const videoFiles = [
+            <!--"../images/art/video/Oleksii Pryimak 2011.mp4", -->
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const gallery = document.getElementById('art-gallery');
+            const videoGallery = document.getElementById('video-gallery');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            artImages.forEach(src => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Artystyczne malowanie';
+                img.loading = 'lazy';
+                item.appendChild(img);
+                gallery.appendChild(item);
+
+                item.addEventListener('click', () => {
+                    openLightbox(src);
+                });
+            });
+
+            videoFiles.forEach(src => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'video-card';
+                const video = document.createElement('video');
+                video.src = src;
+                video.autoplay = true;
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true;
+                video.setAttribute('playsinline', '');
+                wrapper.appendChild(video);
+                videoGallery.appendChild(wrapper);
+            });
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', event => {
+                if (event.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
