@@ -311,6 +311,133 @@ function typeWriter(elementId, text, speed = 50, callback = null) {
     type();
 }
 
+const graphicsImages = [
+    "images/graphic/1 oleksii-pryimak-3 art.jpg",
+    "images/graphic/2 oleksii-pryimak-1-1 art.jpg",
+    "images/graphic/3 Oleksii Pryimak - grafika komputerowa - design -3.jpg",
+    "images/graphic/637993-Oleksii-Pryimak.jpg",
+    "images/graphic/851327-Oleksii-Pryimak.jpg",
+    "images/graphic/908347-Oleksii-Pryimak.jpg",
+    "images/graphic/018819-Oleksii-Pryimak.jpg",
+    "images/graphic/Oleksii Pryimak - grafika komputerowa - arcive od 2021 - 1.jpg",
+    "images/graphic/Oleksii Pryimak - grafika komputerowa - design -1 1.jpg",
+    "images/graphic/Oleksii Pryimak - grafika komputerowa - design -13.jpg",
+    "images/graphic/Oleksii Pryimak - grafika komputerowa - design -16.jpg",
+    "images/graphic/Oleksii Pryimak - grafika komputerowa - design -2.jpg",
+    "images/graphic/Oleksii Pryimak - grafika komputerowa - design -20.jpg",
+    "images/graphic/Oleksii Pryimak - grafika komputerowa - design -21.jpg",
+    "images/graphic/Oleksii Pryimak - grafika komputerowa - design -7 1.jpg",
+    "images/graphic/oleksii_primak_archive.jpg"
+];
+
+const artImages = [
+    "images/art/1 Oleksii Pryimak 22 1.jpg",
+    "images/art/096939-Oleksii-Pryimak.jpg",
+    "images/art/1 Oleksii Pryimak 24 mural.jpg",
+    "images/art/1 Oleksii Pryimak 26 mural.jpg",
+    "images/art/1 Oleksii Pryimak 27 mural.jpg",
+    "images/art/1-Oleksii-Pryimak.jpg",
+    "images/art/156145-Oleksii-Pryimak.jpg",
+    "images/art/218852-Oleksii-Pryimak.jpg",
+    "images/art/242315-Oleksii-Pryimak.jpg",
+    "images/art/338756-Oleksii-Pryimak.jpg",
+    "images/art/394391-Oleksii-Pryimak.jpg",
+    "images/art/443023-Oleksii-Pryimak.jpg",
+    "images/art/Oleksii Pryimak 1 mural.jpg",
+    "images/art/Oleksii Pryimak 10 mural.JPG",
+    "images/art/Oleksii Pryimak 11 mural.jpg"
+];
+
+function create3DCarousel(containerId, images) {
+    const container = document.getElementById(containerId);
+    if (!container || images.length === 0) return;
+    container.innerHTML = '';
+
+    const track = document.createElement('div');
+    track.className = 'carousel-track';
+    container.appendChild(track);
+
+    const slides = images.map((src, index) => {
+        const slide = document.createElement('button');
+        slide.type = 'button';
+        slide.className = 'carousel-slide';
+        slide.style.backgroundImage = `url('${src}')`;
+        slide.dataset.index = index;
+        slide.addEventListener('click', () => {
+            setCurrent(index);
+        });
+        track.appendChild(slide);
+        return slide;
+    });
+
+    let currentIndex = 0;
+    let autoRotateHandle = null;
+    let pointerDown = false;
+    let startX = 0;
+
+    const updateSlides = (newIndex) => {
+        currentIndex = ((newIndex % slides.length) + slides.length) % slides.length;
+        slides.forEach((slide, index) => {
+            slide.className = 'carousel-slide';
+            const delta = (index - currentIndex + slides.length) % slides.length;
+            if (delta === 0) {
+                slide.classList.add('active');
+            } else if (delta === 1) {
+                slide.classList.add('next');
+            } else if (delta === slides.length - 1) {
+                slide.classList.add('prev');
+            } else if (delta === 2) {
+                slide.classList.add('next-far');
+            } else if (delta === slides.length - 2) {
+                slide.classList.add('prev-far');
+            } else {
+                slide.classList.add('hidden');
+            }
+        });
+    };
+
+    const setCurrent = (index) => {
+        updateSlides(index);
+        resetAutoRotate();
+    };
+
+    const resetAutoRotate = () => {
+        if (autoRotateHandle) clearInterval(autoRotateHandle);
+        autoRotateHandle = setInterval(() => updateSlides(currentIndex + 1), 5000);
+    };
+
+    container.addEventListener('pointerdown', (event) => {
+        pointerDown = true;
+        startX = event.clientX;
+        container.setPointerCapture(event.pointerId);
+    });
+
+    container.addEventListener('pointermove', (event) => {
+        if (!pointerDown) return;
+        const diff = event.clientX - startX;
+        if (Math.abs(diff) > 40) {
+            event.preventDefault();
+        }
+    });
+
+    container.addEventListener('pointerup', (event) => {
+        if (!pointerDown) return;
+        pointerDown = false;
+        const diff = event.clientX - startX;
+        if (Math.abs(diff) > 60) {
+            updateSlides(currentIndex + (diff > 0 ? -1 : 1));
+        }
+    });
+
+    container.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        updateSlides(currentIndex + (event.deltaY > 0 ? 1 : -1));
+    }, { passive: false });
+
+    updateSlides(currentIndex);
+    resetAutoRotate();
+}
+
 // --- LANGUAGE SWITCHING ---
 function switchLanguage(lang) {
     localStorage.setItem('language', lang);
@@ -321,7 +448,7 @@ function switchLanguage(lang) {
     if (btnEn) btnEn.classList.toggle('active', lang === 'en');
     
     document.querySelectorAll(`[data-lang-${lang}]`).forEach(el => {
-        if (el.id === 'hero-title' || el.id === 'hero-description') {
+        if (el.id === 'hero-description') {
             const text = el.getAttribute(`data-lang-${lang}`);
             typeWriter(el.id, text, 30);
         } else {
@@ -336,13 +463,12 @@ function switchLanguage(lang) {
 }
 
 // --- NAVIGATION & INTERSECTION OBSERVER ---
-const sectionsIds = ['hero', 'programming', 'graphics', 'art', 'contact'];
+const sectionsIds = ['hero', 'programming', 'graphics', 'graphics-gallery', 'art', 'art-gallery', 'contact'];
 
 /**
- * Jednolity algorytm przewijania do sekcji bez względu na position: sticky
+ * Precyzyjny algorytm przewijania do sekcji wykorzystujący współrzędne bezwzględne dokumentu
  */
 function scrollToId(id) {
-    // 1. Zamknij menu mobilne, jeśli jest otwarte (automatycznie chowa overlay bez konieczności klikania "X")
     closeMobileMenu();
 
     if (id === 'top' || id === 'hero') {
@@ -353,38 +479,33 @@ function scrollToId(id) {
     const target = document.getElementById(id);
     if (!target) return;
 
-    // 2. Obliczenie pozycji fizycznej elementu
-    let elementPosition = 0;
-    let currentEl = target;
-    
-    while (currentEl) {
-        elementPosition += currentEl.offsetTop;
-        currentEl = currentEl.offsetParent;
-    }
-
+    const targetRect = target.getBoundingClientRect();
+    const absoluteTop = targetRect.top + (window.pageYOffset || window.scrollY);
     const header = document.querySelector('.top-header');
-    const headerHeight = header ? header.offsetHeight + 12 : 80;
-    const offsetPosition = Math.max(0, elementPosition - headerHeight);
+    const headerHeight = header ? header.offsetHeight + 15 : 80;
+    const offsetPosition = Math.max(0, absoluteTop - headerHeight);
 
     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
 }
 
 function scrollToSection(direction) {
-    let currentIdx = 0;
-    let maxVis = 0;
-    
+    const viewportCenter = window.innerHeight / 2;
+    let closestIdx = 0;
+    let minDistance = Infinity;
+
     sectionsIds.forEach((id, idx) => {
         const el = document.getElementById(id);
         if (!el) return;
         const rect = el.getBoundingClientRect();
-        const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-        if (visibleHeight > maxVis) {
-            maxVis = visibleHeight;
-            currentIdx = idx;
+        const sectionCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(sectionCenter - viewportCenter);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestIdx = idx;
         }
     });
-    
-    let nextIdx = direction === 'down' ? currentIdx + 1 : currentIdx - 1;
+
+    let nextIdx = direction === 'down' ? closestIdx + 1 : closestIdx - 1;
     if (nextIdx < 0) nextIdx = 0;
     if (nextIdx >= sectionsIds.length) nextIdx = sectionsIds.length - 1;
     scrollToId(sectionsIds[nextIdx]);
@@ -402,8 +523,9 @@ const observer = new IntersectionObserver((entries) => {
 
             if (target.tagName.toLowerCase() === 'section') {
                 const id = target.id;
+                const mappedId = id.replace('-gallery', '');
                 document.querySelectorAll('.progress-segment').forEach(seg => {
-                    seg.classList.toggle('active', seg.getAttribute('data-target') === id);
+                    seg.classList.toggle('active', seg.getAttribute('data-target') === mappedId);
                 });
 
                 const container = target.querySelector('.fade-in-section');
@@ -426,24 +548,6 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 }, observerOptions);
-
-// --- CAROUSEL ---
-function initCarousel(id) {
-    let idx = 0;
-    const container = document.getElementById(id);
-    if (!container) return;
-    
-    const slides = container.querySelectorAll('.carousel-slide');
-    if (slides.length === 0) return;
-    
-    setInterval(() => {
-        slides[idx].classList.remove('active');
-        slides[idx].style.opacity = '0';
-        idx = (idx + 1) % slides.length;
-        slides[idx].classList.add('active');
-        slides[idx].style.opacity = '1';
-    }, 4000);
-}
 
 // --- MENU MOBILNE ---
 function closeMobileMenu() {
@@ -489,12 +593,18 @@ function initializeApp() {
     );
     revealElements.forEach(el => observer.observe(el));
 
-    initCarousel('carousel-graphics');
-    initCarousel('carousel-art');
+    create3DCarousel('carousel-graphics', graphicsImages);
+    create3DCarousel('carousel-art', artImages);
 
     new ParticleSystem('particle-canvas');
 
     updateContentImageScroll();
+    window.addEventListener('scroll', updateContentImageScroll, { passive: true });
+    window.addEventListener('resize', updateContentImageScroll);
+
+    const lang = localStorage.getItem('language') || 'pl';
+    switchLanguage(lang);
+
     window.addEventListener('scroll', updateContentImageScroll, { passive: true });
     window.addEventListener('resize', updateContentImageScroll);
 

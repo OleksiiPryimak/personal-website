@@ -3,7 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artystyczne malowanie | Galeria</title>
+    <title>Artystyczne Malowanie &amp; Murale | Oleksii Pryimak</title>
+
+    <!-- Meta SEO & Robots -->
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Galeria prac artystycznego malowania i wielkoformatowych murali Oleksii Pryimak. Ponad 20 000 m² zrealizowanych projektów.">
+    <meta name="author" content="Oleksii Pryimak">
+
+    <!-- Tag Kanoniczny (Canonical) -->
+    <link rel="canonical" href="https://oleksii.pryimak.pl/pages/art.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oleksii.pryimak.pl/pages/art.html">
+    <meta property="og:title" content="Artystyczne Malowanie &amp; Murale | Oleksii Pryimak">
+    <meta property="og:description" content="Galeria prac artystycznego malowania i wielkoformatowych murali Oleksii Pryimak.">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FC5D5TD5PJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-FC5D5TD5PJ');
+    </script>
+
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -12,7 +37,11 @@
 
         <header class="gallery-header">
             <div>
-                <h1>Art</h1>
+                <h1>Oleksii Pryimak — Artystyczne Malowanie</h1>
+                <p class="gallery-intro-desc">
+                    Artystyczne malowanie i murale wielkoformatowe stanowią fundament mojego doświadczenia w sztukach wizualnych. Zrealizowałem ponad 20 000 m² powierzchni malarskich w przestrzeni publicznej i prywatnej, łącząc tradycyjne techniki malarskie (akryl, spray) z nowoczesnym projektowaniem koncepcyjnym.
+                </p>
+            </div>
         </header>
 
         <main class="gallery-grid" id="art-gallery"></main>
@@ -28,6 +57,10 @@
                 <img id="lightbox-img" src="" alt="Preview">
             </div>
         </div>
+
+        <footer class="gallery-footer">
+            <a href="https://sites.google.com/pryimak.pl/oleksii-pryimak" target="_blank" rel="noopener noreferrer" class="archive-link">Archive</a>
+        </footer>
     </div>
 
     <script src="../js/main.js" defer></script>
