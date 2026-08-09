@@ -51,23 +51,17 @@
 </head>
 <body>
 
-    <!-- Top Header (Language & Mobile Menu Toggle) -->
+    <!-- Górny przeźroczysty pasek z przyciskami po bokach -->
     <div class="top-header">
-        <div class="top-header-inner">
-            <!-- Mobile Hamburger Button -->
-            <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu" onclick="toggleMobileMenu()">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
+        <!-- Osobny element po lewej (Strzałka) -->
+        <button class="nav-scroll-btn" id="nav-scroll-btn" onclick="handleSmartScroll()" aria-label="Nawigacja">
+            <i class="fas fa-arrow-down" id="nav-scroll-icon"></i>
+        </button>
 
-            <div class="header-brand">Oleksii Pryimak</div>
-
-            <!-- Language Switcher -->
-            <div class="lang-container lang-container-right">
-                <div class="lang-btn active" id="btn-pl" onclick="switchLanguage('pl')">PL</div>
-                <div class="lang-btn" id="btn-en" onclick="switchLanguage('en')">EN</div>
-            </div>
+        <!-- Osobny element po prawej (Języki PL / EN) -->
+        <div class="lang-container">
+            <div class="lang-btn active" id="btn-pl" onclick="switchLanguage('pl')">PL</div>
+            <div class="lang-btn" id="btn-en" onclick="switchLanguage('en')">EN</div>
         </div>
     </div>
 
@@ -85,25 +79,6 @@
         </nav>
     </div>
 
-    <!-- Right Navigation & Progress (Desktop) -->
-    <div class="nav-container">
-        <div class="nav-arrow nav-arrow-up" onclick="scrollToSection('up')" title="Poprzednia sekcja">
-            <i class="fas fa-chevron-up"></i>
-        </div>
-        
-        <div class="progress-bar">          
-            <!-- 5 segments corresponding to 5 sections -->
-            <div class="progress-segment" data-target="hero" data-tooltip-pl="Start" data-tooltip-en="Home" onclick="scrollToId('hero')"></div>
-            <div class="progress-segment" data-target="programming" data-tooltip-pl="Programowanie" data-tooltip-en="Programming" onclick="scrollToId('programming')"></div>
-            <div class="progress-segment" data-target="graphics" data-tooltip-pl="Grafika" data-tooltip-en="Graphics" onclick="scrollToId('graphics')"></div>
-            <div class="progress-segment" data-target="art" data-tooltip-pl="Sztuka" data-tooltip-en="Art" onclick="scrollToId('art')"></div>
-            <div class="progress-segment" data-target="contact" data-tooltip-pl="Kontakt" data-tooltip-en="Contact" onclick="scrollToId('contact')"></div>
-        </div>
-
-        <div class="nav-arrow nav-arrow-down" onclick="scrollToSection('down')" title="Następna sekcja">
-            <i class="fas fa-chevron-down"></i>
-        </div>
-    </div>
 
     <!-- 1. HERO SECTION -->
     <section id="hero">
@@ -115,9 +90,9 @@
                 <span class="hero-line hero-line-1 reveal-slide-up" data-lang-pl="Cześć, jestem Oleksii Pryimak" data-lang-en="Hi, I'm Oleksii Pryimak">Cześć, jestem Oleksii Pryimak</span>
                 <span class="hero-line hero-line-2 reveal-slide-up stagger-1" data-lang-pl="Creative Professional | Python Developer" data-lang-en="Creative Professional | Python Developer">Creative Professional | Python Developer</span>
             </h1>
-            <p id="hero-description" data-lang-pl="Mam na imię Oleksii. Od ponad 20 lat realizuję projekty dla e-commerce, sztuki wizualnej i architektury. Obecnie łączę Photoshopa z Pythonem, by tworzyć autorskie narzędzia rozwiązujące wyzwania operacyjne i zwiększające produktywność." 
-               data-lang-en="My name is Oleksii. For over 20 years, I have been delivering projects across e-commerce, visual arts, and architecture. Currently, I combine Photoshop and Python to build custom tools that solve operational challenges and boost productivity.">
-                Mam na imię Oleksii. Jestem specjalistą w branży kreatywnej oraz programistą Python. Posiadam ponad 20-letnie doświadczenie w sektorze kreatywnym oraz bogate kompetencje w projektowaniu graficznym dla branż e-commerce, sztuki wizualnej i architektury.
+            <p id="hero-description" data-lang-pl="Od ponad 20 lat realizuję projekty z zakresu e-commerce, sztuk wizualnych i architektury. Obecnie pracuję w jednej z wiodących firm e-commerce, gdzie tworzę dedykowane narzędzia rozwiązujące wyzwania operacyjne i zwiększające produktywność w ramach studia fotograficznego oraz procesów retuszu." 
+               data-lang-en="For over 20 years, I have been delivering projects across e-commerce, visual arts, and architecture. Currently, I work at one of the leading e-commerce companies, building custom tools to solve operational challenges and boost productivity across photo studio and retouching processes.">
+                Od ponad 20 lat realizuję projekty z zakresu e-commerce, sztuk wizualnych i architektury. Obecnie pracuję w jednej z wiodących firm e-commerce, gdzie tworzę dedykowane narzędzia rozwiązujące wyzwania operacyjne i zwiększające produktywność w ramach studia fotograficznego oraz procesów retuszu.
             </p>
             
             <div class="hero-socials reveal-slide-up stagger-2">
@@ -134,28 +109,25 @@
         <div class="container fade-in-section">
             <div class="section-header-row">
                 <h2 class="section-title reveal-slide-left" data-lang-pl="Programowanie" data-lang-en="Programming">Programowanie</h2>
+
                 <a href="https://github.com/OleksiiPryimak" target="_blank" class="cta-btn reveal-slide-left stagger-1" data-lang-pl="Profil GitHub" data-lang-en="GitHub Profile">Profil GitHub</a>
             </div>
 
             <div class="section-desc reveal-slide-up stagger-1" 
-                 data-lang-pl="Posiadam wieloletnie praktyczne doświadczenie w tworzeniu dedykowanych skryptów oraz automatyzacji procesów biznesowych przy użyciu języka Python. Specjalizuję się w integracji narzędzi e-commerce, automatyzacji obróbki grafiki (Photoshop API / Scripting) oraz pisaniu wydajnego kodu rozwijającego produktywność operacyjną."
-                 data-lang-en="I have many years of hands-on experience developing custom Python scripts and business process automations. I specialize in e-commerce tools integration, graphics processing automation (Photoshop API / Scripting), and writing efficient code that boosts operational productivity.">
-                 Posiadam wieloletnie praktyczne doświadczenie w tworzeniu dedykowanych skryptów oraz automatyzacji procesów biznesowych przy użyciu języka Python. Specjalizuję się w integracji narzędzi e-commerce, automatyzacji obróbki grafiki (Photoshop API / Scripting) oraz pisaniu wydajnego kodu rozwijającego produktywność operacyjną.
+                 data-lang-pl="Od 2023 roku tworzę w Pythonie skrypty i praktyczne aplikacje automatyzujące procesy i rozwiązujące realne problemy operacyjne. Stale rozwijam się w obszarze AI oraz Software Engineeringu."
+                 data-lang-en="Since 2023, I’ve been developing Python scripts and practical applications that automate processes and solve real operational challenges. I am continuously expanding my skills in AI and Software Engineering.">
+                 Od 2023 roku tworzę w Pythonie skrypty i praktyczne aplikacje automatyzujące procesy i rozwiązujące realne problemy operacyjne. Stale rozwijam się w obszarze AI oraz Software Engineeringu.
             </div>
 
             <div class="section-details reveal-fade stagger-2">
                 <h4 data-lang-pl="Kursy i Certyfikaty" data-lang-en="Courses & Certificates">Kursy i Certyfikaty</h4>
                 <ul>
+                    <li>Claude Code: Software Engineering with Generative AI Agents (2026)</li>
                     <li>Generative AI Leader (2026)</li>
                     <li>Basics: HTML, CSS, JavaScript (2025)</li>
                     <li>Practical Python - Course (2023)</li>
                     <li>Creative Skills for Innovation - Workshop (PFR & Google, 2019)</li>
-                </ul>
-                <h4 data-lang-pl="Specjalizacja & Stack Techniczny" data-lang-en="Specialization & Tech Stack">Specjalizacja & Stack Techniczny</h4>
-                <ul>
-                    <li data-lang-pl="Python (Pandas, Automatyzacja, Scripting, REST APIs)" data-lang-en="Python (Pandas, Automation, Scripting, REST APIs)">Python (Pandas, Automatyzacja, Scripting, REST APIs)</li>
-                    <li data-lang-pl="Automatyzacja Adobe Photoshop (ExtendScript / Python API)" data-lang-en="Adobe Photoshop Automation (ExtendScript / Python API)">Automatyzacja Adobe Photoshop (ExtendScript / Python API)</li>
-                    <li data-lang-pl="Narzędzia E-commerce & Skrypty Optymalizacyjne" data-lang-en="E-commerce Tools & Optimization Scripts">Narzędzia E-commerce & Skrypty Optymalizacyjne</li>
+                    <li>...</li>
                 </ul>
             </div>
         </div>
@@ -171,33 +143,36 @@
             </div>
 
             <div class="section-desc reveal-slide-up stagger-1" 
-                 data-lang-pl="W dziedzinie grafiki komputerowej stawiam na precyzję, kompozycję oraz maksymalną wydajność pracy. Od ponad dwóch dekad pracuję z pakietem Adobe Photoshop, tworząc nie tylko zaawansowane kreacje wizualne dla e-commerce i sztuki, ale również przygotowując zautomatyzowane operacje usprawniające masowe przetwarzanie obrazów."
-                 data-lang-en="In computer graphics, I focus on precision, composition, and maximum workflow efficiency. For over two decades, I have worked with Adobe Photoshop, creating advanced visual assets for e-commerce and visual arts, as well as automated actions for batch image processing.">
-                 W dziedzinie grafiki komputerowej stawiam na precyzję, kompozycję oraz maksymalną wydajność pracy. Od ponad dwóch dekad pracuję z pakietem Adobe Photoshop, tworząc nie tylko zaawansowane kreacje wizualne dla e-commerce i sztuki, ale również przygotowując zautomatyzowane operacje usprawniające masowe przetwarzanie obrazów.
+                 data-lang-pl="Od lat tworzę grafikę komputerową dla różnych branż. Obecnie moim głównym narzędziem jest Adobe Photoshop, a kluczowym obszarem – tworzenie zautomatyzowane operacji do masowego przetwarzania obrazów."
+                 data-lang-en="For years, I’ve been creating computer graphics across various industries. Today, my primary tool is Adobe Photoshop, with a main focus on creating automated operations for mass image processing. ">
+                Od lat tworzę grafikę komputerową dla różnych branż. Obecnie moim głównym narzędziem jest Adobe Photoshop, a kluczowym obszarem – tworzenie zautomatyzowane operacji do masowego przetwarzania obrazów.
             </div>
 
             <div class="section-details reveal-fade stagger-2">
-                <h4 data-lang-pl="Wykorzystywane Oprogramowanie" data-lang-en="Software Ecosystem">Wykorzystywane Oprogramowanie</h4>
+                <h4 data-lang-pl="Dodatkowa znajomość oprogramowania" data-lang-en="Additional software experience:">Dodatkowa znajomość oprogramowania</h4>
                 <ul>
-                    <li>Adobe Photoshop (20+ lat doświadczenia: zaawansowany retusz, kompozycja, skrypty)</li>
-                    <li>Affinity Designer & Inkscape (grafika wektorowa i ilustracje)</li>
-                    <li>Blender (modelowanie 3D oraz renderowanie wizualizacyjne)</li>
-                    <li>AutoCAD & NanoCAD (dokumentacja techniczna i projekty CAD)</li>
-                    <li>HitFilm Express (edycja i postprodukcja materiałów wideo)</li>
+                    <li>Adobe Photoshop (retouching, compositing / photomanipulation, actions)</li>
+                    <li>Affinity & Inkscape (raster graphics & vector illustration)</li>
+                    <li>Blender 3D (3D visualization)</li>
+                    <li>AutoCAD & nanoCAD (architectural floor planning & technical blueprints)</li>
+                    <li>HitFilm Express (video editing & post-production)</li>
                 </ul>
             </div>
         </div>
     </section>
 
+    <!-- GRAPHICS GALLERY SECTION -->
     <section id="graphics-gallery" class="gallery-section">
         <div class="bg-image bg-graph"></div>
         <div class="overlay"></div>
         <div class="container fade-in-section">
             <div class="section-header-row">
-                <h2 class="section-title reveal-slide-left" data-lang-pl="Galeria Grafiki" data-lang-en="Graphics Gallery">Galeria Grafiki</h2>
+                <h2 class="section-title reveal-slide-left" data-lang-pl="Grafika Komputerowa / Galeria" data-lang-en="Computer Graphics Gallery">Grafika Komputerowa / Grafiki</h2>
+                <!-- PRZYCISK PROWADZĄCY DO PODSTRONY GRAPHICS.HTML -->
+                <a href="pages/graphics.html" class="cta-btn reveal-slide-left stagger-1" data-lang-pl="Projekty graficzne" data-lang-en="Graphics Projects">Graphics Projects</a>
             </div>
-            <div class="section-desc reveal-slide-up stagger-1" data-lang-pl="Interaktywna, przewijana galeria prac graficznych. Przesuń lub kliknij, aby wybrać centralny obraz." data-lang-en="Interactive, scrolling gallery of graphic works. Swipe or click to center each image.">
-                Interaktywna, przewijana galeria prac graficznych. Przesuń lub kliknij, aby wybrać centralny obraz.
+            <div class="section-desc reveal-slide-up stagger-1" data-lang-pl="Wybrane projekty" data-lang-en="Selected projects">
+                Wybrane projekty
             </div>
             <div class="carousel-3d" id="carousel-graphics"></div>
         </div>
@@ -209,13 +184,13 @@
         <div class="overlay"></div>
         <div class="container fade-in-section">
             <div class="section-header-row">
-                <h2 class="section-title reveal-slide-left" data-lang-pl="Artystyczne Malowanie" data-lang-en="Mural Art">Artystyczne Malowanie</h2>
+                <h2 class="section-title reveal-slide-left" data-lang-pl="Artystyczne Malowanie" data-lang-en="Murals & Art">Artystyczne Malowanie</h2>
             </div>
 
             <div class="section-desc reveal-slide-up stagger-1" 
-                 data-lang-pl="Artystyczne malowanie i murale wielkoformatowe stanowią fundament mojego doświadczenia w sztukach wizualnych. Zrealizowałem ponad 20 000 m² powierzchni malarskich w przestrzeni publicznej i prywatnej, łącząc tradycycyjne techniki malarskie (akryl, spray) z nowoczesnym projektowaniem koncepcyjnym."
-                 data-lang-en="Mural art and large-scale visual projects form the core foundation of my fine art background. I have executed over 20,000 m² of painted surfaces in public and private spaces, combining traditional techniques (spray paint, acrylics) with modern conceptual design.">
-                 Artystyczne malowanie i murale wielkoformatowe stanowią fundament mojego doświadczenia w sztukach wizualnych. Zrealizowałem ponad 20 000 m² powierzchni malarskich w przestrzeni publicznej i prywatnej, łącząc tradycyjne techniki malarskie (akryl, spray) z nowoczesnym projektowaniem koncepcyjnym.
+                 data-lang-pl="Jako artysta zrealizowałem ponad 20 000 m² murali i obrazów w przestrzeni publicznej oraz prywatnej. Tworzyłem w sprayu i akrylu, realizując projekty sięgające nawet 90 metrów wysokości."
+                 data-lang-en="As an artist, I have executed over 20,000 m² of murals and paintings across public and private spaces. Working with spray paint and acrylics, I’ve completed projects reaching up to 90 meters in height.">
+                 Jako artysta zrealizowałem ponad 20 000 m² murali i obrazów w przestrzeni publicznej oraz prywatnej. Tworzyłem w sprayu i akrylu, realizując projekty sięgające nawet 90 metrów wysokości.
             </div>
 
             <div class="section-details reveal-fade stagger-2">
@@ -230,15 +205,18 @@
         </div>
     </section>
 
+    <!-- ART GALLERY SECTION -->
     <section id="art-gallery" class="gallery-section">
         <div class="bg-image bg-art"></div>
         <div class="overlay"></div>
         <div class="container fade-in-section">
             <div class="section-header-row">
-                <h2 class="section-title reveal-slide-left" data-lang-pl="Galeria Murali" data-lang-en="Mural Gallery">Galeria Murali</h2>
+                <h2 class="section-title reveal-slide-left" data-lang-pl="Artystyczne Malowanie / Galeria" data-lang-en="Murals & Art Gallery">Artystyczne Malowanie / Galeria</h2>
+                <!-- PRZYCISK PROWADZĄCY DO PODSTRONY ART.HTML -->
+                <a href="pages/art.html" class="cta-btn reveal-slide-left stagger-1" data-lang-pl="Projekty Artystyczne" data-lang-en="Art Projects">Art Projects</a>
             </div>
-            <div class="section-desc reveal-slide-up stagger-1" data-lang-pl="Nieskończona karuzela murali. Przesuń lub kliknij obok, aby wyśrodkować kolejne realizacje." data-lang-en="Endless mural carousel. Swipe or click side images to center the next work.">
-                Nieskończona karuzela murali. Przesuń lub kliknij obok, aby wyśrodkować kolejne realizacje.
+            <div class="section-desc reveal-slide-up stagger-1" data-lang-pl="Wybrane projekty" data-lang-en="Selected projects">
+                Wybrane projekty
             </div>
             <div class="carousel-3d" id="carousel-art"></div>
         </div>
@@ -251,8 +229,8 @@
         <div class="container fade-in-section">
             <h2 class="section-title reveal-slide-down" style="text-align: center; border: none;" data-lang-pl="Kontakt" data-lang-en="Contact">Kontakt</h2>
             
-            <p class="contact-cta reveal-slide-down stagger-1" data-lang-pl="Jesteś zainteresowany współpracą? Napisz do mnie!" data-lang-en="Interested in working together? Drop me a line!">
-                Jesteś zainteresowany współpracą? Napisz do mnie!
+            <p class="contact-cta reveal-slide-down stagger-1" data-lang-pl="Jesteś zainteresowany współpracą? Zapraszam do kontaktu!" data-lang-en="Interested in working together? Feel free to contact me.">
+                Jesteś zainteresowany współpracą? Zapraszam do kontaktu!
             </p>
 
             <div class="contact-box reveal-scale stagger-2">
@@ -265,6 +243,14 @@
             </div>
         </div>
     </section>
+
+    <!-- Lightbox (Podgląd powiększonego zdjęcia) -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" aria-label="Zamknij" onclick="closeLightbox()">&times;</button>
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="Powiększony obraz">
+        </div>
+    </div>
 
     <!-- Skrypt JS -->
     <script src="js/main.js" defer></script>

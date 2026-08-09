@@ -1,10 +1,9 @@
+// --- LIGHTBOX (PODGLĄD OBRAZÓW) ---
 function openLightbox(src) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
 
-    if (!lightbox || !lightboxImg) {
-        return;
-    }
+    if (!lightbox || !lightboxImg) return;
 
     lightboxImg.src = src;
     lightbox.classList.add('active');
@@ -15,9 +14,7 @@ function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
 
-    if (!lightbox || !lightboxImg) {
-        return;
-    }
+    if (!lightbox || !lightboxImg) return;
 
     lightbox.classList.remove('active');
     lightboxImg.src = '';
@@ -34,16 +31,12 @@ document.addEventListener('keydown', (event) => {
 class ParticleSystem {
     constructor(canvasId) {
         if (ParticleSystem._instance) {
-            console.warn('ParticleSystem already initialized. Returning existing instance.');
             return ParticleSystem._instance;
         }
         ParticleSystem._instance = this;
 
         this.canvas = document.getElementById(canvasId);
-        if (!this.canvas) {
-            console.warn('Canvas element not found');
-            return;
-        }
+        if (!this.canvas) return;
         
         this.ctx = this.canvas.getContext('2d');
         this.width = this.canvas.width;
@@ -157,16 +150,10 @@ class ParticleSystem {
         const duration = Math.random() * 800 + 600;
         
         this.shootingStars.push({
-            startX,
-            startY,
-            endX,
-            endY,
-            currentX: startX,
-            currentY: startY,
-            startTime: this.time,
-            duration,
-            length: 100,
-            width: 3
+            startX, startY, endX, endY,
+            currentX: startX, currentY: startY,
+            startTime: this.time, duration,
+            length: 100, width: 3
         });
     }
 
@@ -190,7 +177,6 @@ class ParticleSystem {
 
             star.vx *= FRICTION;
             star.vy *= FRICTION;
-            
             star.x += star.vx;
             star.y += star.vy;
 
@@ -218,7 +204,6 @@ class ParticleSystem {
         this.shootingStars.forEach(star => {
             const elapsed = this.time - star.startTime;
             const progress = elapsed / star.duration;
-            
             star.currentX = star.startX + (star.endX - star.startX) * progress;
             star.currentY = star.startY + (star.endY - star.startY) * progress;
         });
@@ -280,10 +265,11 @@ class ParticleSystem {
     }
 }
 
-// --- TYPING EFFECT ---
+// --- EFEKT PISANIA NA MASZYNIE (TYPING EFFECT) ---
+// --- BEZPIECZNY DLA SEO EFEKT PISANIA NA MASZYNIE ---
 const typeWriterTimers = {};
 
-function typeWriter(elementId, text, speed = 50, callback = null) {
+function typeWriter(elementId, text, speed = 30, callback = null) {
     const element = document.getElementById(elementId);
     if (!element) return;
     
@@ -291,18 +277,24 @@ function typeWriter(elementId, text, speed = 50, callback = null) {
         clearTimeout(typeWriterTimers[elementId]);
     }
     
-    element.textContent = '';
+    // Tekst jest CAŁY CZAS w HTML (SEO go widzi)
+    element.textContent = text; 
     element.classList.add('typing-active');
-    let index = 0;
-    const originalText = text;
     
+    let index = 0;
+    const fullText = text;
+    
+    // Zamiast czyszczenia tekstu, tworzymy nakładkę wizualną wewnątrz JS
+    // lub przechodzimy po indeksach widoczności bez modyfikacji tekstowego węzła głównego
     function type() {
-        if (index < originalText.length) {
-            element.innerHTML = originalText.substring(0, index + 1) + '<span class="typing-cursor"></span>';
+        if (index <= fullText.length) {
+            // Bezpieczna zmiana wizualna: nakładamy podciąg z kursorem na końcu
+            element.innerHTML = fullText.substring(0, index) + '<span class="typing-cursor"></span>';
             index++;
             typeWriterTimers[elementId] = setTimeout(type, speed);
         } else {
-            element.textContent = originalText;
+            // Po zakończeniu animacji zostawiamy czysty tekst bez kursora
+            element.textContent = fullText;
             delete typeWriterTimers[elementId];
             if (callback) callback();
         }
@@ -311,6 +303,7 @@ function typeWriter(elementId, text, speed = 50, callback = null) {
     type();
 }
 
+// --- ZDJĘCIA GALERII ---
 const graphicsImages = [
     "images/graphic/1 oleksii-pryimak-3 art.jpg",
     "images/graphic/2 oleksii-pryimak-1-1 art.jpg",
@@ -348,94 +341,120 @@ const artImages = [
     "images/art/Oleksii Pryimak 11 mural.jpg"
 ];
 
-function create3DCarousel(containerId, images) {
-    const container = document.getElementById(containerId);
-    if (!container || images.length === 0) return;
-    container.innerHTML = '';
+// --- LOGIKA INTERAKTYWNEJ KARUZELI 3D (3D CAROUSEL) ---
+class Carousel3D {
+    constructor(containerId, images) {
+        this.container = document.getElementById(containerId);
+        if (!this.container) return;
 
-    const track = document.createElement('div');
-    track.className = 'carousel-track';
-    container.appendChild(track);
+        this.images = images.slice(0, 7); // Pierwsze 7 obrazków
+        this.currentIndex = 0;
+        this.items = [];
 
-    const slides = images.map((src, index) => {
-        const slide = document.createElement('button');
-        slide.type = 'button';
-        slide.className = 'carousel-slide';
-        slide.style.backgroundImage = `url('${src}')`;
-        slide.dataset.index = index;
-        slide.addEventListener('click', () => {
-            setCurrent(index);
+        this.init();
+    }
+
+    init() {
+        this.container.innerHTML = '';
+        
+        this.images.forEach((src, idx) => {
+            const item = document.createElement('div');
+            item.className = 'carousel-item';
+            
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Portfolio item ${idx + 1}`;
+            img.loading = 'lazy';
+            
+            item.appendChild(img);
+            
+            // Kliknięcie środkowego zdjęcia otwiera Lightbox, bocznego - wyśrodkowuje je
+            item.addEventListener('click', () => {
+                if (idx === this.currentIndex) {
+                    openLightbox(src);
+                } else {
+                    this.currentIndex = idx;
+                    this.update();
+                }
+            });
+
+            this.container.appendChild(item);
+            this.items.push(item);
         });
-        track.appendChild(slide);
-        return slide;
-    });
 
-    let currentIndex = 0;
-    let autoRotateHandle = null;
-    let pointerDown = false;
-    let startX = 0;
+        // Drag / Swipe obsługa na urządzeniach dotykowych i myszką
+        let startX = 0;
+        let isDragging = false;
 
-    const updateSlides = (newIndex) => {
-        currentIndex = ((newIndex % slides.length) + slides.length) % slides.length;
-        slides.forEach((slide, index) => {
-            slide.className = 'carousel-slide';
-            const delta = (index - currentIndex + slides.length) % slides.length;
-            if (delta === 0) {
-                slide.classList.add('active');
-            } else if (delta === 1) {
-                slide.classList.add('next');
-            } else if (delta === slides.length - 1) {
-                slide.classList.add('prev');
-            } else if (delta === 2) {
-                slide.classList.add('next-far');
-            } else if (delta === slides.length - 2) {
-                slide.classList.add('prev-far');
-            } else {
-                slide.classList.add('hidden');
+        this.container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+        });
+
+        this.container.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const diff = e.clientX - startX;
+            if (Math.abs(diff) > 50) {
+                if (diff < 0) this.next();
+                else this.prev();
+                isDragging = false;
             }
         });
-    };
 
-    const setCurrent = (index) => {
-        updateSlides(index);
-        resetAutoRotate();
-    };
+        window.addEventListener('mouseup', () => { isDragging = false; });
 
-    const resetAutoRotate = () => {
-        if (autoRotateHandle) clearInterval(autoRotateHandle);
-        autoRotateHandle = setInterval(() => updateSlides(currentIndex + 1), 5000);
-    };
+        this.container.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        }, { passive: true });
 
-    container.addEventListener('pointerdown', (event) => {
-        pointerDown = true;
-        startX = event.clientX;
-        container.setPointerCapture(event.pointerId);
-    });
+        this.container.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            const diff = endX - startX;
+            if (Math.abs(diff) > 40) {
+                if (diff < 0) this.next();
+                else this.prev();
+            }
+        }, { passive: true });
 
-    container.addEventListener('pointermove', (event) => {
-        if (!pointerDown) return;
-        const diff = event.clientX - startX;
-        if (Math.abs(diff) > 40) {
-            event.preventDefault();
-        }
-    });
+        this.update();
+    }
 
-    container.addEventListener('pointerup', (event) => {
-        if (!pointerDown) return;
-        pointerDown = false;
-        const diff = event.clientX - startX;
-        if (Math.abs(diff) > 60) {
-            updateSlides(currentIndex + (diff > 0 ? -1 : 1));
-        }
-    });
+    next() {
+        this.currentIndex = (this.currentIndex + 1) % this.items.length;
+        this.update();
+    }
 
-    container.addEventListener('wheel', (event) => {
-        event.preventDefault();
-        updateSlides(currentIndex + (event.deltaY > 0 ? 1 : -1));
-    }, { passive: false });
+    prev() {
+        this.currentIndex = (this.currentIndex - 1 + this.items.length) % this.items.length;
+        this.update();
+    }
 
-    updateSlides(currentIndex);
-    resetAutoRotate();
+    update() {
+        const total = this.items.length;
+        this.items.forEach((item, idx) => {
+            item.className = 'carousel-item';
+            
+            let diff = idx - this.currentIndex;
+            
+            // Logika karuzeli nieskończonej
+            if (diff > total / 2) diff -= total;
+            if (diff < -total / 2) diff += total;
+
+            if (diff === 0) {
+                item.classList.add('active');
+            } else if (diff === -1) {
+                item.classList.add('prev');
+            } else if (diff === 1) {
+                item.classList.add('next');
+            } else if (diff === -2) {
+                item.classList.add('far-prev');
+            } else if (diff === 2) {
+                item.classList.add('far-next');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+    }
 }
 
 // --- LANGUAGE SWITCHING ---
@@ -448,141 +467,104 @@ function switchLanguage(lang) {
     if (btnEn) btnEn.classList.toggle('active', lang === 'en');
     
     document.querySelectorAll(`[data-lang-${lang}]`).forEach(el => {
-        if (el.id === 'hero-description') {
-            const text = el.getAttribute(`data-lang-${lang}`);
-            typeWriter(el.id, text, 30);
+        const text = el.getAttribute(`data-lang-${lang}`);
+        
+        if (el.id === 'hero-description' || el.classList.contains('section-title')) {
+            if (!el.id) {
+                el.id = 'title-' + Math.random().toString(36).substr(2, 9);
+            }
+            typeWriter(el.id, text, 25);
         } else {
-            el.textContent = el.getAttribute(`data-lang-${lang}`);
+            el.textContent = text;
         }
-    });
-
-    document.querySelectorAll('.progress-segment').forEach(seg => {
-        const tooltip = seg.getAttribute(`data-tooltip-${lang}`);
-        if (tooltip) seg.setAttribute('data-tooltip-active', tooltip);
     });
 }
 
-// --- NAVIGATION & INTERSECTION OBSERVER ---
+// --- NAWIGACJA ORAZ SCROLLOWANIE STRZAŁKĄ ---
 const sectionsIds = ['hero', 'programming', 'graphics', 'graphics-gallery', 'art', 'art-gallery', 'contact'];
 
-/**
- * Precyzyjny algorytm przewijania do sekcji wykorzystujący współrzędne bezwzględne dokumentu
- */
-function scrollToId(id) {
-    closeMobileMenu();
-
-    if (id === 'top' || id === 'hero') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
+function handleSmartScroll() {
+    const contactEl = document.getElementById('contact');
+    
+    if (contactEl) {
+        const contactRect = contactEl.getBoundingClientRect();
+        if (contactRect.top <= window.innerHeight * 0.3) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
     }
 
-    const target = document.getElementById(id);
-    if (!target) return;
-
-    const targetRect = target.getBoundingClientRect();
-    const absoluteTop = targetRect.top + (window.pageYOffset || window.scrollY);
-    const header = document.querySelector('.top-header');
-    const headerHeight = header ? header.offsetHeight + 15 : 80;
-    const offsetPosition = Math.max(0, absoluteTop - headerHeight);
-
-    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-}
-
-function scrollToSection(direction) {
-    const viewportCenter = window.innerHeight / 2;
-    let closestIdx = 0;
-    let minDistance = Infinity;
-
-    sectionsIds.forEach((id, idx) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const sectionCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(sectionCenter - viewportCenter);
-        if (distance < minDistance) {
-            minDistance = distance;
-            closestIdx = idx;
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    
+    for (let i = 0; i < sectionsIds.length - 1; i++) {
+        const nextEl = document.getElementById(sectionsIds[i + 1]);
+        if (nextEl) {
+            const nextTop = nextEl.offsetTop;
+            if (nextTop > currentScroll + 50) {
+                window.scrollTo({
+                    top: nextTop,
+                    behavior: 'smooth'
+                });
+                return;
+            }
         }
-    });
-
-    let nextIdx = direction === 'down' ? closestIdx + 1 : closestIdx - 1;
-    if (nextIdx < 0) nextIdx = 0;
-    if (nextIdx >= sectionsIds.length) nextIdx = sectionsIds.length - 1;
-    scrollToId(sectionsIds[nextIdx]);
+    }
 }
 
+function updateNavArrow() {
+    const icon = document.getElementById('nav-scroll-icon');
+    if (!icon) return;
+
+    const contactEl = document.getElementById('contact');
+    if (contactEl) {
+        const rect = contactEl.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.4) {
+            icon.className = 'fas fa-arrow-up';
+            return;
+        }
+    }
+    icon.className = 'fas fa-arrow-down';
+}
+
+// --- OBSERWATOR PRZEWIJANIA Z EFEKTEM PISANIA DLA NAGŁÓWKÓW ---
 const observerOptions = { 
-    threshold: 0.15,
+    threshold: 0.2,
     rootMargin: '0px 0px -40px 0px' 
 };
+
+const typedHeaders = new Set();
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const target = entry.target;
 
-            if (target.tagName.toLowerCase() === 'section') {
-                const id = target.id;
-                const mappedId = id.replace('-gallery', '');
-                document.querySelectorAll('.progress-segment').forEach(seg => {
-                    seg.classList.toggle('active', seg.getAttribute('data-target') === mappedId);
-                });
-
-                const container = target.querySelector('.fade-in-section');
-                if (container) container.classList.add('is-visible', 'active');
-            }
-
             target.classList.add('active');
             if (target.classList.contains('fade-in-section')) {
                 target.classList.add('is-visible');
             }
 
-            if (target.id === 'programming' || target.id === 'graphics' || target.id === 'art') {
-                const sectionTitle = target.querySelector('.section-title');
-                const sectionDesc = target.querySelector('.section-desc');
-                const skillsGrid = target.querySelector('.skills-grid');
-                if (sectionTitle) sectionTitle.classList.add('float-up');
-                if (sectionDesc) sectionDesc.classList.add('float-up');
-                if (skillsGrid) skillsGrid.classList.add('float-up');
+            const titleEl = target.querySelector('.section-title');
+            if (titleEl && !typedHeaders.has(titleEl)) {
+                typedHeaders.add(titleEl);
+                
+                const currentLang = localStorage.getItem('language') || 'pl';
+                const langAttr = titleEl.getAttribute(`data-lang-${currentLang}`);
+                const textToType = langAttr || titleEl.textContent.trim();
+                
+                if (!titleEl.id) {
+                    titleEl.id = 'title-' + Math.random().toString(36).substr(2, 9);
+                }
+
+                typeWriter(titleEl.id, textToType, 40);
             }
         }
     });
 }, observerOptions);
 
-// --- MENU MOBILNE ---
-function closeMobileMenu() {
-    const overlay = document.getElementById('mobile-menu-overlay');
-    const btn = document.getElementById('hamburger-btn');
-    if (overlay) overlay.classList.remove('active');
-    if (btn) btn.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function toggleMobileMenu() {
-    const overlay = document.getElementById('mobile-menu-overlay');
-    const btn = document.getElementById('hamburger-btn');
-    if (!overlay || !btn) return;
-
-    const isActive = overlay.classList.toggle('active');
-    btn.classList.toggle('active', isActive);
-
-    document.body.style.overflow = isActive ? 'hidden' : '';
-}
-
-function updateContentImageScroll() {
-    const images = document.querySelectorAll('.content-image');
-    images.forEach(img => {
-        const rect = img.getBoundingClientRect();
-        const windowCenter = window.innerHeight * 0.5;
-        const distanceFromCenter = rect.top + rect.height * 0.5 - windowCenter;
-        const maxOffset = 30;
-        const progress = Math.max(-1, Math.min(1, distanceFromCenter / windowCenter));
-        img.style.transform = `translateX(${progress * maxOffset}px)`;
-    });
-}
-
-// --- INITIALIZE ON PAGE LOAD ---
+// --- INITIALIZATION ---
 function initializeApp() {
+    // 1. Obserwator do animacji Sekcji
     sectionsIds.forEach(id => {
         const el = document.getElementById(id);
         if (el) observer.observe(el);
@@ -593,52 +575,21 @@ function initializeApp() {
     );
     revealElements.forEach(el => observer.observe(el));
 
-    create3DCarousel('carousel-graphics', graphicsImages);
-    create3DCarousel('carousel-art', artImages);
+    // 2. Generowanie interaktywnych karuzel 3D
+    new Carousel3D('carousel-graphics', graphicsImages);
+    new Carousel3D('carousel-art', artImages);
 
+    // 3. Efekt tła Canvas
     new ParticleSystem('particle-canvas');
 
-    updateContentImageScroll();
-    window.addEventListener('scroll', updateContentImageScroll, { passive: true });
-    window.addEventListener('resize', updateContentImageScroll);
+    // 4. Aktualizacja strzałki nawigacyjnej przy skrolowaniu
+    window.addEventListener('scroll', updateNavArrow, { passive: true });
+    updateNavArrow();
 
-    const lang = localStorage.getItem('language') || 'pl';
-    switchLanguage(lang);
-
-    window.addEventListener('scroll', updateContentImageScroll, { passive: true });
-    window.addEventListener('resize', updateContentImageScroll);
-
+    // 5. Zmiana języka
     const lang = localStorage.getItem('language') || 'pl';
     switchLanguage(lang);
 }
-
-// --- LISTENERY KLIKNIĘĆ W MENU (GÓRNE ORAZ BOCZNE) ---
-document.addEventListener('DOMContentLoaded', () => {
-    // Handling wszystkich linków kotwiczących (#)
-    const allNavLinks = document.querySelectorAll('a[href^="#"]');
-    allNavLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            const targetAttr = link.getAttribute('href');
-            if (!targetAttr || targetAttr === '#') return;
-            
-            e.preventDefault();
-            const targetId = targetAttr.replace('#', '');
-            scrollToId(targetId);
-        });
-    });
-
-    // Handling bocznego paska nawigacji (.progress-segment)
-    const progressSegments = document.querySelectorAll('.progress-segment');
-    progressSegments.forEach(seg => {
-        seg.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = seg.getAttribute('data-target');
-            if (targetId) {
-                scrollToId(targetId);
-            }
-        });
-    });
-});
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeApp);

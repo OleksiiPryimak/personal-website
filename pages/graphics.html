@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oleksii Pryimak | Artystyczne Malowanie & Murale</title>
+    <title>Oleksii Pryimak | Grafika Komputerowa</title>
     
     <!-- Czcionka i Ikony -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -224,12 +224,12 @@
 
         <!-- Nagłówek -->
         <header>
-            <h1 class="header-title">Artystyczne Malowanie / Galeria</h1>
+            <h1 class="header-title">Grafika Komputerowa / Galeria</h1>
             <p class="header-desc">Wybrane projekty</p>
         </header>
 
         <!-- Galeria 3 zdjęcia w rzędzie -->
-        <main class="gallery-grid" id="art-gallery"></main>
+        <main class="gallery-grid" id="graphic-gallery"></main>
     </div>
 
     <!-- Niezależny Lightbox ze Strzałkami -->
@@ -252,28 +252,29 @@
     </div>
 
     <script>
-        const artImages = [
-            "../images/art/1 Oleksii Pryimak 22 1.jpg",
-            "../images/art/096939-Oleksii-Pryimak.jpg",
-            "../images/art/1 Oleksii Pryimak 24 mural.jpg",
-            "../images/art/1 Oleksii Pryimak 26 mural.jpg",
-            "../images/art/1 Oleksii Pryimak 27 mural.jpg",
-            "../images/art/1-Oleksii-Pryimak.jpg",
-            "../images/art/156145-Oleksii-Pryimak.jpg",
-            "../images/art/218852-Oleksii-Pryimak.jpg",
-            "../images/art/242315-Oleksii-Pryimak.jpg",
-            "../images/art/338756-Oleksii-Pryimak.jpg",
-            "../images/art/394391-Oleksii-Pryimak.jpg",
-            "../images/art/443023-Oleksii-Pryimak.jpg",
-            "../images/art/Oleksii Pryimak 1 mural.jpg",
-            "../images/art/Oleksii Pryimak 10 mural.JPG",
-            "../images/art/Oleksii Pryimak 11 mural.jpg"
+        const graphicImages = [
+            "../images/graphic/1 oleksii-pryimak-3 art.jpg",
+            "../images/graphic/2 oleksii-pryimak-1-1 art.jpg",
+            "../images/graphic/3 Oleksii Pryimak - grafika komputerowa - design -3.jpg",
+            "../images/graphic/637993-Oleksii-Pryimak.jpg",
+            "../images/graphic/851327-Oleksii-Pryimak.jpg",
+            "../images/graphic/908347-Oleksii-Pryimak.jpg",
+            "../images/graphic/018819-Oleksii-Pryimak.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - arcive od 2021 - 1.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -1 1.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -13.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -16.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -2.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -20.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -21.jpg",
+            "../images/graphic/Oleksii Pryimak - grafika komputerowa - design -7 1.jpg",
+            "../images/graphic/oleksii_primak_archive.jpg"
         ];
 
         let currentIndex = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
-            const gallery = document.getElementById('art-gallery');
+            const gallery = document.getElementById('graphic-gallery');
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             const lightboxClose = document.getElementById('lightbox-close');
@@ -281,13 +282,13 @@
             const lightboxNext = document.getElementById('lightbox-next');
 
             // Renderowanie prostokątów
-            artImages.forEach((src, index) => {
+            graphicImages.forEach((src, index) => {
                 const card = document.createElement('div');
                 card.className = 'gallery-card';
                 
                 const img = document.createElement('img');
                 img.src = src;
-                img.alt = 'Artystyczne Malowanie - Oleksii Pryimak';
+                img.alt = 'Grafika Komputerowa - Oleksii Pryimak';
                 
                 card.appendChild(img);
                 gallery.appendChild(card);
@@ -302,18 +303,18 @@
 
             // Wyświetlenie obrazka pod danym indeksem
             function showImage(index) {
-                lightboxImg.src = artImages[index];
+                lightboxImg.src = graphicImages[index];
             }
 
             // Następne zdjęcie
             function nextImage() {
-                currentIndex = (currentIndex + 1) % artImages.length;
+                currentIndex = (currentIndex + 1) % graphicImages.length;
                 showImage(currentIndex);
             }
 
             // Poprzednie zdjęcie
             function prevImage() {
-                currentIndex = (currentIndex - 1 + artImages.length) % artImages.length;
+                currentIndex = (currentIndex - 1 + graphicImages.length) % graphicImages.length;
                 showImage(currentIndex);
             }
 
